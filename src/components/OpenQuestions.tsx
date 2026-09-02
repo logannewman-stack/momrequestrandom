@@ -1,6 +1,4 @@
-import type { ReactNode } from 'react'
-
-const QUESTIONS: { q: string; a: ReactNode }[] = [
+const QUESTIONS = [
   {
     q: 'What is actually inside a seat?',
     a: 'An individual pays $30 a month and a five hundred person organization pays $15 for the same thing. Nobody has written down what that thing includes. This is the largest undefined item in the model and it shapes the build.',
@@ -22,16 +20,21 @@ const QUESTIONS: { q: string; a: ReactNode }[] = [
 export function OpenQuestions() {
   return (
     <>
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2">
         {QUESTIONS.map((item) => (
-          <div key={item.q} className="pl-5" style={{ borderLeft: '3px solid var(--s-accent)' }}>
-            <h3
-              className="mb-1.5 font-sans text-[14.5px] font-semibold"
-              style={{ color: 'var(--s-heading)' }}
-            >
+          <div
+            key={item.q}
+            className="p-7"
+            style={{
+              background: 'var(--s-surface)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: 'var(--s-shadow-sm)',
+            }}
+          >
+            <h3 className="text-[16px] tracking-[-0.015em]" style={{ color: 'var(--s-text)' }}>
               {item.q}
             </h3>
-            <p className="m-0 text-[0.95rem]" style={{ color: 'var(--s-muted)' }}>
+            <p className="mt-3 text-[14.5px] leading-[1.6]" style={{ color: 'var(--s-muted)' }}>
               {item.a}
             </p>
           </div>
@@ -39,13 +42,21 @@ export function OpenQuestions() {
       </div>
 
       <div
-        className="mt-7 rounded-[4px] px-5 py-4 text-[0.97rem]"
-        style={{ background: 'var(--s-note-bg)', border: '1px solid var(--s-note-rule)' }}
+        className="mt-4 p-7"
+        style={{ background: 'var(--s-accent-soft)', borderRadius: 'var(--radius-md)' }}
         role="note"
       >
-        <strong>One number to fix before anything is published.</strong> The live site, the DSO
-        sheet, and the client facing page each carry a different seat price. If two of them reach
-        the same buyer, or the same broker, the conversation stops being about value.
+        <h3 className="text-[16px]" style={{ color: 'var(--s-accent-text)' }}>
+          One number to fix before anything is published
+        </h3>
+        <p
+          className="mt-3 max-w-[52rem] text-[14.5px] leading-[1.6]"
+          style={{ color: 'var(--s-muted)' }}
+        >
+          The live site, the DSO sheet, and the client facing page each carry a different seat
+          price. If two of them reach the same buyer, or the same broker, the conversation stops
+          being about value.
+        </p>
       </div>
     </>
   )

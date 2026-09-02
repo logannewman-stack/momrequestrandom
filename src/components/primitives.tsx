@@ -1,52 +1,51 @@
 import type { ReactNode } from 'react'
 import { useReveal } from '../hooks/useReveal'
 
+/**
+ * Sections are separated by space alone — no numbers, no rules. The rhythm is
+ * deliberately large; it is most of what makes the page feel calm.
+ */
 export function Section({
   id,
-  index,
   title,
   lede,
   children,
-  last = false,
+  center = false,
 }: {
   id: string
-  index: string
   title: string
   lede?: ReactNode
   children: ReactNode
-  last?: boolean
+  center?: boolean
 }) {
   const ref = useReveal<HTMLElement>()
   return (
     <section
       id={id}
       ref={ref}
-      className="reveal scroll-mt-24 py-14 sm:py-16"
-      style={{ borderBottom: last ? 'none' : '1px solid var(--s-rule)' }}
+      className="reveal scroll-mt-28 py-16 sm:py-24"
       aria-labelledby={`${id}-title`}
     >
-      <div className="mb-1.5 flex items-center gap-3">
-        <span
-          className="tnum font-sans text-[11px] font-semibold"
-          style={{ color: 'var(--s-accent-text)' }}
+      <div className={center ? 'mx-auto max-w-[46rem] text-center' : ''}>
+        <h2
+          id={`${id}-title`}
+          className="text-[clamp(1.75rem,4vw,2.6rem)]"
+          style={{ color: 'var(--s-text)' }}
         >
-          {index}
-        </span>
-        <span className="h-px flex-1" style={{ background: 'var(--s-rule)' }} aria-hidden="true" />
+          {title}
+        </h2>
+        {lede && (
+          <p
+            className={`mt-4 text-[clamp(1.02rem,1.7vw,1.2rem)] leading-[1.5] ${
+              center ? 'mx-auto' : ''
+            } max-w-[42rem]`}
+            style={{ color: 'var(--s-muted)' }}
+          >
+            {lede}
+          </p>
+        )}
       </div>
-      <h2
-        id={`${id}-title`}
-        className="mb-2 text-[clamp(1.35rem,2.7vw,1.6rem)] font-semibold tracking-[-0.015em]"
-        style={{ color: 'var(--s-heading)' }}
-      >
-        {title}
-      </h2>
-      {lede && (
-        <p className="mb-7 max-w-[64ch] text-[1.02rem]" style={{ color: 'var(--s-muted)' }}>
-          {lede}
-        </p>
-      )}
-      {children}
+      <div className="mt-10 sm:mt-12">{children}</div>
     </section>
   )
 }
@@ -64,65 +63,69 @@ export function Card({
 }) {
   return (
     <div
-      className="flex flex-col rounded-[4px] p-5 transition-transform duration-300 hover:-translate-y-0.5"
+      className="flex flex-col p-7 transition-[transform,box-shadow] duration-500 hover:-translate-y-1"
       style={{
-        background: 'var(--s-card)',
-        border: '1px solid var(--s-rule)',
+        background: 'var(--s-surface)',
+        borderRadius: 'var(--radius-md)',
         boxShadow: 'var(--s-shadow)',
+        transitionTimingFunction: 'var(--ease-smooth)',
       }}
     >
       <h3
-        className="mb-2 font-sans text-[13px] font-semibold"
+        className="text-[13px] font-medium tracking-normal"
         style={{ color: 'var(--s-accent-text)' }}
       >
         {eyebrow}
       </h3>
       <div
-        className="tnum font-sans text-[1.7rem] leading-none font-semibold"
-        style={{ color: 'var(--s-heading)' }}
+        className="tnum mt-4 text-[2rem] leading-none font-semibold tracking-[-0.03em]"
+        style={{ color: 'var(--s-text)' }}
       >
         {amount}
       </div>
-      <div className="mt-1.5 mb-3 font-sans text-xs" style={{ color: 'var(--s-muted)' }}>
+      <div className="mt-2 text-[13.5px]" style={{ color: 'var(--s-faint)' }}>
         {unit}
       </div>
-      <p className="m-0 text-[0.92rem] leading-[1.58]" style={{ color: 'var(--s-muted)' }}>
+      <p className="mt-5 text-[14.5px] leading-[1.55]" style={{ color: 'var(--s-muted)' }}>
         {children}
       </p>
     </div>
   )
 }
 
-/** A metric rendered on the dark slab. */
+/** A figure in the calculator panel. */
 export function Metric({
   label,
   value,
   hero = false,
-  sub = false,
 }: {
   label: string
   value: string
   hero?: boolean
-  sub?: boolean
 }) {
+  if (hero) {
+    return (
+      <div className="col-span-full px-7 pt-7 pb-6">
+        <div className="text-[13px] font-medium" style={{ color: 'var(--s-muted)' }}>
+          {label}
+        </div>
+        <div
+          className="tnum mt-1.5 text-[clamp(2.6rem,7vw,3.6rem)] leading-none font-semibold tracking-[-0.035em]"
+          style={{ color: 'var(--s-accent-text)' }}
+        >
+          {value}
+        </div>
+      </div>
+    )
+  }
   return (
-    <div
-      className={hero ? 'col-span-full px-4 py-4 sm:px-5' : 'px-4 py-3.5 sm:px-5'}
-      style={{ background: hero ? 'var(--s-slab-deep)' : 'var(--s-slab)' }}
-    >
-      <div
-        className="mb-1 font-sans text-[10.5px] font-medium tracking-[0.05em] uppercase"
-        style={{ color: 'var(--s-slab-muted)' }}
-      >
+    <div className="px-7 py-5">
+      <div className="text-[12.5px]" style={{ color: 'var(--s-faint)' }}>
         {label}
       </div>
       <div
-        className="tnum font-sans font-semibold"
-        style={{
-          color: hero ? 'var(--color-green-glow)' : 'var(--s-slab-text)',
-          fontSize: hero ? 'clamp(1.9rem,5vw,2.2rem)' : sub ? '1.1rem' : '1.35rem',
-          lineHeight: 1.15,
-        }}
+        className="tnum mt-1 text-[1.28rem] font-semibold tracking-[-0.02em]"
+        style={{ color: 'var(--s-text)' }}
       >
         {value}
       </div>

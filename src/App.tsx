@@ -21,7 +21,7 @@ export default function App() {
     <>
       <a
         href="#components"
-        className="no-print sr-only font-sans focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded focus:px-3 focus:py-2"
+        className="no-print sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:px-4 focus:py-2"
         style={{ background: 'var(--s-accent)', color: '#fff' }}
       >
         Skip to content
@@ -29,12 +29,12 @@ export default function App() {
 
       <SiteHeader scenario={scenario} />
 
-      <main className="mx-auto max-w-[1040px] px-6 sm:px-8">
+      <main className="mx-auto max-w-[62rem] px-6 sm:px-8">
         <Hero />
 
         <Section
           id="components"
-          index="01"
+          center
           title="Three components, one annual agreement"
           lede="Ninety days is a milestone in the product, not a term in the contract. The capstone stays where it is. The agreement runs a year."
         >
@@ -56,8 +56,8 @@ export default function App() {
 
         <Section
           id="ladder"
-          index="02"
-          title="The rate steps down as the organization grows"
+          center
+          title="The rate steps down as you grow"
           lede="A fifteen person practice and a five hundred person company buy the same product. Scale changes the price, not the offering."
         >
           <PriceLadder headcount={headcount} onSelect={setHeadcount} />
@@ -65,29 +65,28 @@ export default function App() {
 
         <Section
           id="calculator"
-          index="03"
+          center
           title="What a given organization pays"
           lede="Enter a headcount. Everything below recalculates, including how many certified leaders the ratio requires."
         >
           <Calculator scenario={scenario} headcount={headcount} onChange={setHeadcount} />
-        </Section>
-
-        <Section id="scenarios" index="04" title="Six organizations, side by side">
-          <ScenarioTable headcount={headcount} onSelect={setHeadcount} />
+          <div className="mt-16">
+            <ScenarioTable headcount={headcount} onSelect={setHeadcount} />
+          </div>
         </Section>
 
         <Section
           id="additive"
-          index="05"
+          center
           title="Nothing here replaces what you already bought"
-          lede="This is not a switch and there is no rip and replace. Whatever runs your business externally stays exactly where it is. What we install is the layer underneath it, and that layer is what determines whether the money you have already spent returns what you hoped for when you spent it."
+          lede="This is not a switch, and there is no rip and replace. Whatever runs your business externally stays exactly where it is. What we install is the layer underneath it."
         >
           <AdditiveStack scenario={scenario} />
         </Section>
 
         <Section
           id="ratio"
-          index="06"
+          center
           title="Why the ratio matters more than the seat"
           lede={`One certified leader per ${PEOPLE_PER_LEADER} people. Below that the standard has nobody holding it once we step back, and the install decays. Above it, the leader is carrying too many people to coach any of them well.`}
         >
@@ -96,7 +95,7 @@ export default function App() {
 
         <Section
           id="reader"
-          index="07"
+          center
           title="The reader who arrives from the book"
           lede={
             <>
@@ -109,7 +108,7 @@ export default function App() {
           <BookFunnel />
         </Section>
 
-        <Section id="open" index="08" title="Still open" last>
+        <Section id="open" center title="Still open">
           <OpenQuestions />
         </Section>
 

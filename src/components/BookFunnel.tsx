@@ -9,8 +9,8 @@ export function BookFunnel() {
           and it is the top of the funnel.
         </Card>
         <Card eyebrow="Individual" amount="$30" unit="per month, or $300 a year">
-          Full app for one person. Same seat an organization buys at band one, which keeps the story
-          consistent if a reader later brings us to their company.
+          Full app for one person. The same seat an organization buys at band one, which keeps the
+          story consistent if a reader later brings us to their company.
         </Card>
         <Card eyebrow="Team" amount="From $25" unit="per person, per month">
           Ten seat minimum. Adds the gap report and the WIN builder for whoever leads. This is where
@@ -18,10 +18,13 @@ export function BookFunnel() {
         </Card>
       </div>
 
-      <p className="mt-6 max-w-[68ch]">
-        <strong>The build requirement this creates:</strong> the team layer has to be gated to an
-        organization account. If an individual seat can generate a team link, ten people buy singles
-        and the enterprise agreement is bypassed entirely.
+      <p
+        className="mx-auto mt-12 max-w-[42rem] text-center text-[15.5px] leading-[1.6]"
+        style={{ color: 'var(--s-muted)' }}
+      >
+        <strong style={{ color: 'var(--s-text)' }}>The build requirement this creates:</strong> the
+        team layer has to be gated to an organization account. If an individual seat can generate a
+        team link, ten people buy singles and the enterprise agreement is bypassed entirely.
       </p>
     </>
   )

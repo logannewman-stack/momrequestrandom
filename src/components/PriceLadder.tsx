@@ -1,27 +1,36 @@
 import { BANDS } from '../lib/pricing'
 
-const VB = { w: 900, h: 330 }
-const PLOT = { left: 60, right: 880, top: 75, baseline: 287 }
+const VB = { w: 900, h: 300 }
+const PLOT = { left: 20, right: 880, top: 60, baseline: 240 }
 const RATES = BANDS.map((b) => b.rate)
 const MAX_RATE = Math.max(...RATES)
 const MIN_RATE = Math.min(...RATES)
 const COL = (PLOT.right - PLOT.left) / BANDS.length
+const GAP = 10
 
-/**
- * Linear scale from seat rate to y. The source document used eyeballed step
- * heights that did not match the prices; this makes the steps proportional to
- * the money, which is the whole point of the picture.
- */
+/** Step heights are proportional to the seat rate. */
 const yFor = (rate: number) =>
-  PLOT.top + ((MAX_RATE - rate) / (MAX_RATE - MIN_RATE)) * (PLOT.baseline - 48 - PLOT.top)
+  PLOT.top + ((MAX_RATE - rate) / (MAX_RATE - MIN_RATE)) * (PLOT.baseline - 40 - PLOT.top)
 
-/** A representative headcount inside a band, used when a step is clicked. */
+/** A bar with rounded top corners and a square foot, so it sits on a baseline. */
+function barPath(x: number, y: number, w: number, h: number, r: number) {
+  const rr = Math.min(r, h, w / 2)
+  const b = y + h
+  return `M${x} ${b} V${y + rr} Q${x} ${y} ${x + rr} ${y} H${x + w - rr} Q${x + w} ${y} ${x + w} ${
+    y + rr
+  } V${b} Z`
+}
+
 function midpointOf(index: number): number {
   const lower = index === 0 ? 1 : BANDS[index - 1].max + 1
   const upper = BANDS[index].max
   return Number.isFinite(upper) ? Math.round((lower + upper) / 2) : 750
 }
 
+/**
+ * Separated columns rather than a continuous staircase: with the rules and
+ * gridlines gone, discrete rounded bars are what still reads as steps.
+ */
 export function PriceLadder({
   headcount,
   onSelect,
@@ -31,38 +40,19 @@ export function PriceLadder({
 }) {
   const activeIndex = BANDS.findIndex((b) => headcount <= b.max)
 
-  const stepPath = BANDS.map((b, i) => {
-    const x0 = PLOT.left + i * COL
-    const y = yFor(b.rate)
-    return `${i === 0 ? `M${x0} ${y}` : `V${y}`} H${x0 + COL}`
-  }).join(' ')
-
   return (
     <figure className="m-0">
-      {/* Below ~620px the labels stop being readable, so the chart scrolls. */}
       <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
         <svg
           viewBox={`0 0 ${VB.w} ${VB.h}`}
-          className="block h-auto w-full min-w-[560px]"
+          className="block h-auto w-full min-w-[520px]"
           role="img"
           aria-label={
             'Seat price steps down as headcount rises: ' +
             BANDS.map((b) => `$${b.rate} for ${b.label}`).join('; ') +
-            `. Currently showing ${headcount} people at $${BANDS[activeIndex].rate}.`
+            `. Currently ${headcount} people at $${BANDS[activeIndex].rate}.`
           }
         >
-          {[0, 1, 2, 3].map((i) => (
-            <line
-              key={i}
-              x1={PLOT.left}
-              x2={PLOT.right}
-              y1={PLOT.top + i * 60}
-              y2={PLOT.top + i * 60}
-              stroke="var(--s-rule)"
-              strokeWidth={1}
-            />
-          ))}
-
           {BANDS.map((b, i) => {
             const x = PLOT.left + i * COL
             const y = yFor(b.rate)
@@ -74,7 +64,7 @@ export function PriceLadder({
                 className="cursor-pointer"
                 role="button"
                 tabIndex={0}
-                aria-label={`Set headcount to the ${b.label} band at $${b.rate} per seat`}
+                aria-label={`Price the ${b.label} band at $${b.rate} per seat`}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
@@ -82,98 +72,48 @@ export function PriceLadder({
                   }
                 }}
               >
-                <rect
-                  x={x}
-                  y={y}
-                  width={COL}
-                  height={PLOT.baseline - y}
-                  fill={
-                    active
-                      ? 'color-mix(in srgb, var(--s-accent) 20%, var(--s-bg))'
-                      : 'var(--s-wash)'
-                  }
-                  style={{ transition: 'fill .35s var(--ease-out-quint)' }}
+                <path
+                  d={barPath(x + GAP / 2, y, COL - GAP, PLOT.baseline - y, 14)}
+                  fill={active ? 'var(--s-accent)' : 'var(--s-surface-3)'}
+                  style={{ transition: 'fill .5s var(--ease-smooth)' }}
                 />
-                {/* Full-height hit area so the short bands stay easy to click. */}
                 <rect
                   x={x}
-                  y={PLOT.top - 40}
+                  y={PLOT.top - 46}
                   width={COL}
-                  height={PLOT.baseline - PLOT.top + 40}
+                  height={PLOT.baseline - PLOT.top + 46}
                   fill="transparent"
                 />
                 <text
-                  x={x + 12}
-                  y={y - 12}
-                  className="tnum font-sans"
-                  fontSize={active ? 21 : 19}
+                  x={x + COL / 2}
+                  y={y - 18}
+                  textAnchor="middle"
+                  className="tnum"
+                  fontSize={26}
                   fontWeight={600}
-                  fill={active ? 'var(--s-accent-text)' : 'var(--s-muted)'}
-                  style={{ transition: 'fill .3s ease, font-size .3s ease' }}
+                  letterSpacing="-0.03em"
+                  fill={active ? 'var(--s-accent-text)' : 'var(--s-text)'}
+                  style={{ transition: 'fill .4s var(--ease-gentle)' }}
                 >
                   ${b.rate}
                 </text>
                 <text
-                  x={x + 12}
-                  y={PLOT.baseline + 21}
-                  className="font-sans"
-                  fontSize={12}
-                  fontWeight={active ? 600 : 400}
-                  fill={active ? 'var(--s-accent-text)' : 'var(--s-muted)'}
+                  x={x + COL / 2}
+                  y={PLOT.baseline + 28}
+                  textAnchor="middle"
+                  fontSize={14}
+                  fill={active ? 'var(--s-text)' : 'var(--s-faint)'}
+                  style={{ transition: 'fill .4s var(--ease-gentle)' }}
                 >
                   {b.label}
                 </text>
               </g>
             )
           })}
-
-          <line
-            x1={PLOT.left}
-            x2={PLOT.right}
-            y1={PLOT.baseline}
-            y2={PLOT.baseline}
-            stroke="var(--s-rule-strong)"
-            strokeWidth={1.5}
-          />
-
-          <path
-            d={stepPath}
-            fill="none"
-            stroke="var(--s-accent)"
-            strokeWidth={2.5}
-            strokeLinejoin="round"
-          />
-
-          {/* Marker for where the current headcount sits inside its band. */}
-          <g style={{ transition: 'transform .45s var(--ease-out-quint)' }}>
-            <line
-              x1={PLOT.left + activeIndex * COL}
-              x2={PLOT.left + (activeIndex + 1) * COL}
-              y1={yFor(BANDS[activeIndex].rate)}
-              y2={yFor(BANDS[activeIndex].rate)}
-              stroke="var(--s-accent)"
-              strokeWidth={6}
-              strokeLinecap="round"
-            />
-          </g>
-
-          <text x={PLOT.left} y={26} className="font-sans" fontSize={11} fill="var(--s-muted)">
-            Seat price per month
-          </text>
-          <text
-            x={PLOT.right}
-            y={26}
-            textAnchor="end"
-            className="font-sans"
-            fontSize={11}
-            fill="var(--s-muted)"
-          >
-            Headcount
-          </text>
         </svg>
       </div>
-      <figcaption className="mt-3 text-[12.5px]" style={{ color: 'var(--s-muted)' }}>
-        Step heights are proportional to the seat price. Select a band to price that size.
+      <figcaption className="mt-6 text-center text-[13px]" style={{ color: 'var(--s-faint)' }}>
+        Select a band to price that size.
       </figcaption>
     </figure>
   )

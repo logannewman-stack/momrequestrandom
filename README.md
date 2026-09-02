@@ -48,6 +48,13 @@ Changing a price means editing that one file.
 - The market comparison bars are fixed at fifty people, since those are quoted
   market figures rather than modelled ones.
 
+## Design
+
+Creamy, minimal, all-sans. Surfaces separate by tint and a soft shadow rather
+than by rules, so the page carries almost no borders; sections are divided by
+space alone. Self-hosted Inter is the only typeface. Light and dark are one set
+of semantic variables in `src/index.css` — no component names a raw colour.
+
 ## Deploying
 
 `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on push to
