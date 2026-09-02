@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from '../hooks/useTheme'
-import { usd, type Scenario } from '../lib/pricing'
+import { usd, type ReturnModel, type Scenario } from '../lib/pricing'
 
 const SECTIONS = [
-  { id: 'components', label: 'Pricing' },
-  { id: 'ladder', label: 'Scale' },
-  { id: 'calculator', label: 'Calculator' },
-  { id: 'additive', label: 'Context' },
-  { id: 'ratio', label: 'Ratio' },
-  { id: 'reader', label: 'Readers' },
-  { id: 'open', label: 'Open' },
+  { id: 'problem', label: 'Problem' },
+  { id: 'installed', label: 'What installs' },
+  { id: 'cost', label: 'Cost' },
+  { id: 'numbers', label: 'Your numbers' },
+  { id: 'method', label: 'Method' },
+  { id: 'alternatives', label: 'Alternatives' },
+  { id: 'value', label: 'Value' },
 ]
 
 function ThemeToggle() {
@@ -30,7 +30,7 @@ function ThemeToggle() {
   )
 }
 
-export function SiteHeader({ scenario }: { scenario: Scenario }) {
+export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) {
   const [active, setActive] = useState('')
   const [docked, setDocked] = useState(false)
 
@@ -94,8 +94,8 @@ export function SiteHeader({ scenario }: { scenario: Scenario }) {
 
         <div className="ml-auto flex items-center gap-2.5">
           <a
-            href="#calculator"
-            className="hidden items-center gap-2 rounded-full px-3 py-1 text-[12.5px] no-underline sm:flex"
+            href="#numbers"
+            className="hidden items-center gap-2.5 rounded-full px-3.5 py-1 text-[12.5px] no-underline sm:flex"
             style={{
               background: 'var(--s-surface-2)',
               color: 'var(--s-muted)',
@@ -107,9 +107,10 @@ export function SiteHeader({ scenario }: { scenario: Scenario }) {
             aria-hidden={!docked}
             tabIndex={docked ? 0 : -1}
           >
-            <span className="tnum">{scenario.headcount}</span>
+            <span className="tnum">{cost.headcount} people</span>
+            <span className="tnum">{usd(cost.yearOne)}</span>
             <span className="tnum font-semibold" style={{ color: 'var(--s-accent-text)' }}>
-              {usd(scenario.yearOne)}
+              {usd(ret.recovery)} back
             </span>
           </a>
           <ThemeToggle />

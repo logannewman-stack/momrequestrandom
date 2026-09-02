@@ -1,21 +1,27 @@
 export function SiteFooter() {
   return (
-    <footer className="mt-8 py-14 text-center" style={{ borderTop: '1px solid var(--s-hairline)' }}>
+    <footer className="py-14" style={{ borderTop: '1px solid var(--s-hairline)' }}>
       <p
-        className="mx-auto max-w-[36rem] text-[13px] leading-[1.6]"
+        className="mx-auto max-w-[70ch] text-center text-[13px] leading-[1.65]"
         style={{ color: 'var(--s-faint)' }}
       >
-        Draft pricing model, version 2. Figures are internal and not for publication. Volume
-        arrangements above 500 seats are negotiated, never listed.
+        InnerBoard OS. Figures on this page are a planning model built from your inputs and from
+        published research by Gallup and SHRM. They are an estimate of what is reasonable to expect,
+        not a promise of results, and your outcome will depend on your team and your follow through.
       </p>
-      <button
-        type="button"
-        onClick={() => window.print()}
-        className="no-print mt-7 rounded-full px-4 py-2 text-[13px] transition-colors duration-300"
-        style={{ background: 'var(--s-surface-2)', color: 'var(--s-muted)' }}
-      >
-        Print or save as PDF
-      </button>
+      <p className="mx-auto mt-3 text-center text-[13px]" style={{ color: 'var(--s-faint)' }}>
+        Volume arrangements above 500 seats are quoted directly.
+      </p>
+      <div className="mt-7 text-center">
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="no-print rounded-full px-4 py-2 text-[13px] transition-colors duration-300"
+          style={{ background: 'var(--s-surface-2)', color: 'var(--s-muted)' }}
+        >
+          Print or save as PDF
+        </button>
+      </div>
     </footer>
   )
 }

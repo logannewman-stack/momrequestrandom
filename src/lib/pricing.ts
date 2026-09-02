@@ -38,12 +38,6 @@ export const RENEWAL_PER_LEADER = 797
 /** Prepaying a year costs ten months rather than twelve. */
 export const PREPAY_MONTHS = 10
 
-/**
- * Benchmark spend on the external operating system a company already runs,
- * per person per year. Anchored to the ~$44,000 quoted for fifty people.
- */
-export const EXTERNAL_OS_PER_PERSON = 880
-
 export const MAX_HEADCOUNT = 2000
 
 export function bandFor(headcount: number): Band {
@@ -89,9 +83,6 @@ export type Scenario = {
   recurring: number
   /** Year-one cost per person per month. */
   perPersonMonth: number
-  externalOs: number
-  /** Year one as a share of the external OS spend it sits underneath. */
-  shareOfExternal: number
 }
 
 export function scenario(headcountInput: number): Scenario {
@@ -103,7 +94,6 @@ export function scenario(headcountInput: number): Scenario {
   const certification = certificationCost(leaders)
   const renewal = leaders * RENEWAL_PER_LEADER
   const yearOne = seatsAnnual + certification
-  const externalOs = headcount * EXTERNAL_OS_PER_PERSON
 
   return {
     headcount,
@@ -117,8 +107,6 @@ export function scenario(headcountInput: number): Scenario {
     yearOne,
     recurring: seatsAnnual + renewal,
     perPersonMonth: yearOne / headcount / 12,
-    externalOs,
-    shareOfExternal: yearOne / externalOs,
   }
 }
 
@@ -141,17 +129,160 @@ export const usd = (v: number) => usdFmt.format(Math.round(v))
 export const usdCents = (v: number) => usdCentsFmt.format(v)
 export const pct = (v: number) => `${Math.round(v * 100)}%`
 
-/** The six organizations shown side by side. */
-export const EXAMPLE_HEADCOUNTS = [12, 25, 50, 120, 300, 600]
+/* ---------------------------------------------------------- return model -- */
 
 /**
- * Year-one reference points for comparable systems at fifty people. These are
- * fixed to that size — they are quoted market figures, not modelled ones.
+ * The return side is a planning model, not pricing. It is built from three
+ * inputs the reader sets and a scenario multiplier, and every constant below
+ * sits at the cautious end of the published ranges on purpose.
  */
-export const MARKET_REFERENCES = [
-  { name: 'EOS certified implementer', low: 36000, high: 52000 },
-  { name: 'Scaling Up coaching', low: 30000, high: 30000 },
-  { name: 'Ninety.io, software only', low: 9600, high: 9600, note: 'no delivery included' },
-] as const
 
-export const REFERENCE_HEADCOUNT = 50
+export type ScenarioKey = 'conservative' | 'moderate' | 'strong'
+
+export type ImprovementScenario = {
+  key: ScenarioKey
+  name: string
+  /** Relative reduction in turnover. */
+  turnover: number
+  /** Relative reduction in unscheduled absence. */
+  absence: number
+  /** Capacity recovered, as a share of payroll. */
+  capacity: number
+}
+
+export const SCENARIOS: ImprovementScenario[] = [
+  { key: 'conservative', name: 'Conservative', turnover: 0.15, absence: 0.15, capacity: 0.02 },
+  { key: 'moderate', name: 'Moderate', turnover: 0.25, absence: 0.25, capacity: 0.035 },
+  { key: 'strong', name: 'Strong', turnover: 0.35, absence: 0.35, capacity: 0.05 },
+]
+
+export const scenarioFor = (key: ScenarioKey) =>
+  SCENARIOS.find((s) => s.key === key) ?? SCENARIOS[0]
+
+/** Unscheduled absent days per person per year. */
+export const ABSENT_DAYS = 5
+/** Replacement cost per departure, as a share of annual salary. */
+export const REPLACEMENT_SHARE = 0.5
+export const WORKDAYS = 260
+
+export type ModelInputs = {
+  headcount: number
+  salary: number
+  /** Annual turnover as a rate, e.g. 0.2 for 20 percent. */
+  turnover: number
+  /** Valuation multiple applied to sustained earnings. */
+  multiple: number
+  scenario: ScenarioKey
+}
+
+export const DEFAULT_INPUTS: ModelInputs = {
+  headcount: 50,
+  salary: 55000,
+  turnover: 0.2,
+  multiple: 4,
+  scenario: 'conservative',
+}
+
+export type ReturnModel = {
+  scenario: ImprovementScenario
+  payroll: number
+  /** Departures expected in a year at the entered turnover rate. */
+  departures: number
+  turnoverRecovered: number
+  absenceRecovered: number
+  capacityRecovered: number
+  /** Everything the model claims back in year one. */
+  recovery: number
+  /** Recovery less the year-one cost. */
+  net: number
+  /** Recovery less the recurring cost, i.e. what continues after year one. */
+  sustained: number
+  departuresAvoided: number
+  turnoverAfter: number
+  returnOnSpend: number
+  paybackMonths: number
+  recoveryPerPerson: number
+  addedValue: number
+}
+
+export function returnModel(inputs: ModelInputs, cost: Scenario): ReturnModel {
+  const s = scenarioFor(inputs.scenario)
+  const payroll = inputs.headcount * inputs.salary
+  const departures = inputs.headcount * inputs.turnover
+
+  const turnoverCost = departures * REPLACEMENT_SHARE * inputs.salary
+  const absenceCost = inputs.headcount * ABSENT_DAYS * (inputs.salary / WORKDAYS)
+
+  const turnoverRecovered = turnoverCost * s.turnover
+  const absenceRecovered = absenceCost * s.absence
+  const capacityRecovered = payroll * s.capacity
+  const recovery = turnoverRecovered + absenceRecovered + capacityRecovered
+
+  const sustained = recovery - cost.recurring
+
+  return {
+    scenario: s,
+    payroll,
+    departures,
+    turnoverRecovered,
+    absenceRecovered,
+    capacityRecovered,
+    recovery,
+    net: recovery - cost.yearOne,
+    sustained,
+    departuresAvoided: departures * s.turnover,
+    turnoverAfter: inputs.turnover * (1 - s.turnover),
+    returnOnSpend: recovery / cost.yearOne,
+    paybackMonths: recovery > 0 ? cost.yearOne / (recovery / 12) : Infinity,
+    recoveryPerPerson: recovery / inputs.headcount,
+    addedValue: Math.max(0, sustained * inputs.multiple),
+  }
+}
+
+/* ------------------------------------------------------ the alternatives -- */
+
+/**
+ * Year one at fifty people. Reach is the point of this comparison: the same
+ * spend travels to a very different number of people.
+ */
+export const ALTERNATIVES_HEADCOUNT = 50
+
+export type Alternative = {
+  name: string
+  reach: string
+  /** Year-one cost. `null` means take it from the pricing model. */
+  cost: number | null
+  people: number
+  ours?: boolean
+}
+
+export const ALTERNATIVES: Alternative[] = [
+  {
+    name: 'InnerBoard OS, 50 people',
+    reach: 'Reaches all 50, and the capability stays inside',
+    cost: null,
+    people: 50,
+    ours: true,
+  },
+  {
+    name: 'Business software alone',
+    reach: 'Reaches all 50, delivers tooling rather than capability',
+    cost: 9600,
+    people: 50,
+  },
+  {
+    name: 'Executive coaching program',
+    reach: 'Reaches 2 people at the top',
+    cost: 30000,
+    people: 2,
+  },
+  {
+    name: 'Outside implementer, year one',
+    reach: 'Reaches a leadership team of 8',
+    cost: 44000,
+    people: 8,
+  },
+]
+
+/** The six organizations shown side by side. */
+export const EXAMPLE_HEADCOUNTS = [12, 25, 50, 120, 300, 600]
