@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 import { useModelInputs } from './hooks/useModelInputs'
 import { ALTERNATIVES_HEADCOUNT, returnModel, scenario as buildScenario } from './lib/pricing'
 import { Alternatives } from './components/Alternatives'
+import { CtaBand } from './components/Cta'
 import { Assumptions } from './components/Assumptions'
-import { ClosingCta } from './components/ClosingCta'
 import { Hero } from './components/Hero'
 import { PriceLadder } from './components/PriceLadder'
 import { Problems } from './components/Problems'
@@ -11,6 +11,7 @@ import { ReturnCalculator } from './components/ReturnCalculator'
 import { ScenarioTable } from './components/ScenarioTable'
 import { SiteFooter } from './components/SiteFooter'
 import { SiteHeader } from './components/SiteHeader'
+import { StartSection } from './components/StartSection'
 import { ValueBox } from './components/ValueBox'
 import { WhatGetsInstalled } from './components/WhatGetsInstalled'
 import { Card, Section } from './components/primitives'
@@ -106,6 +107,12 @@ export default function App() {
             </p>
             <ScenarioTable inputs={inputs} onSelect={(headcount) => setInputs({ headcount })} />
           </div>
+
+          <CtaBand
+            heading="Want these numbers run against your actual payroll?"
+            body="Send us the scenario you have on screen and we will pressure test it with your real salary bands, turnover, and roles before anyone talks about a contract."
+            label="Book a walkthrough"
+          />
         </Section>
 
         <Section
@@ -124,6 +131,12 @@ export default function App() {
           lede={`Year one for a ${ALTERNATIVES_HEADCOUNT} person company. The category prices as a barbell: inexpensive software with no delivery, or expensive outsourced implementation. Very little sits in between, and the difference that matters is not only the price. It is how far down the organization the money actually travels.`}
         >
           <Alternatives />
+
+          <CtaBand
+            heading="Not sure which layer is actually leaking?"
+            body="The Company OS Score takes a few minutes and costs nothing. It tells you where the capacity is going before you spend anything on fixing it."
+            label="Start with the score"
+          />
         </Section>
 
         {/* ValueBox carries its own heading, so it is not wrapped in a Section. */}
@@ -131,7 +144,7 @@ export default function App() {
           <ValueBox inputs={inputs} ret={ret} />
         </div>
 
-        <ClosingCta />
+        <StartSection inputs={inputs} cost={cost} ret={ret} />
         <SiteFooter />
       </main>
     </>

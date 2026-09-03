@@ -73,6 +73,9 @@
   --s-shadow-lg: 0 1px 2px rgb(60 50 35 / 0.04), 0 12px 32px -12px rgb(60 50 35 / 0.14);
 
   --s-blur-bg: rgb(250 247 242 / 0.72);
+
+  --s-danger: #c2410c;
+  --s-notice-bg: #fcf4e8;
 }
 
 /* Dark stays warm rather than blue, so it reads as the same material. */
@@ -99,6 +102,9 @@
     --s-shadow-lg: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 
     --s-blur-bg: rgb(16 15 14 / 0.72);
+
+    --s-danger: #f08a5d;
+    --s-notice-bg: #2a2113;
   }
 }
 
@@ -124,6 +130,9 @@
   --s-shadow-lg: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 
   --s-blur-bg: rgb(16 15 14 / 0.72);
+
+  --s-danger: #f08a5d;
+  --s-notice-bg: #2a2113;
 }
 
 /* ----------------------------------------------------------------- base -- */

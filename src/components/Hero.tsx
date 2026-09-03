@@ -1,5 +1,6 @@
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber'
 import { MAX_HEADCOUNT, usd, type ReturnModel, type Scenario } from '../lib/pricing'
+import { CtaButton } from './Cta'
 
 export function Hero({
   headcount,
@@ -122,6 +123,17 @@ export function Hero({
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <CtaButton>Book a walkthrough</CtaButton>
+        <a
+          href="#installed"
+          className="rounded-full px-6 py-3.5 text-[15.5px] no-underline transition-colors duration-300"
+          style={{ background: 'var(--s-surface-2)', color: 'var(--s-text)' }}
+        >
+          See what gets installed
+        </a>
       </div>
     </header>
   )

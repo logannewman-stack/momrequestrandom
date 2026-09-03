@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from '../hooks/useTheme'
 import { usd, type ReturnModel, type Scenario } from '../lib/pricing'
+import { CtaButton } from './Cta'
 
 const SECTIONS = [
   { id: 'problem', label: 'Problem' },
-  { id: 'installed', label: 'What installs' },
   { id: 'cost', label: 'Cost' },
-  { id: 'numbers', label: 'Your numbers' },
+  { id: 'numbers', label: 'Numbers' },
   { id: 'method', label: 'Method' },
-  { id: 'alternatives', label: 'Alternatives' },
   { id: 'value', label: 'Value' },
 ]
 
@@ -78,7 +77,10 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
           InnerBoard OS
         </a>
 
-        <nav aria-label="Sections" className="hidden flex-1 items-center gap-0.5 lg:flex">
+        <nav
+          aria-label="Sections"
+          className="hidden min-w-0 flex-1 items-center gap-0.5 overflow-hidden lg:flex"
+        >
           {SECTIONS.map((s) => (
             <a
               key={s.id}
@@ -92,10 +94,10 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2.5">
+        <div className="ml-auto flex shrink-0 items-center gap-2.5">
           <a
             href="#numbers"
-            className="hidden items-center gap-2.5 rounded-full px-3.5 py-1 text-[12.5px] no-underline sm:flex"
+            className="hidden shrink-0 items-center gap-2.5 rounded-full px-3.5 py-1 text-[12.5px] whitespace-nowrap no-underline sm:flex lg:hidden xl:flex"
             style={{
               background: 'var(--s-surface-2)',
               color: 'var(--s-muted)',
@@ -113,6 +115,14 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
               {usd(ret.recovery)} back
             </span>
           </a>
+          {/*
+            Visibility lives on a wrapper: passing `hidden` into CtaButton
+            fights its own `inline-block`, and Tailwind resolves that by
+            stylesheet order rather than class order.
+          */}
+          <span className="hidden shrink-0 whitespace-nowrap sm:inline-block">
+            <CtaButton size="sm">Book a walkthrough</CtaButton>
+          </span>
           <ThemeToggle />
         </div>
       </div>

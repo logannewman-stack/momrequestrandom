@@ -45,6 +45,53 @@ cost model across headcounts 1 to 2000, and the return model across 91,800
 field comparisons spanning headcount, salary, turnover, multiple, and scenario.
 All identical.
 
+## The enquiry form
+
+Every call to action on the page points at one form in the `#start` section:
+the header button, the hero, two contextual bands mid-page, and the closing
+section itself. The form sends the reader's details **plus the scenario they
+had on screen** — headcount, salary, turnover, multiple, case, and the
+resulting cost and recovery figures — along with a link that reopens that exact
+scenario.
+
+### One setup step before it delivers
+
+This is a static site, so a form service does the delivery. The default is
+FormSubmit, which needs no account:
+
+1. Deploy, then submit the form once.
+2. FormSubmit emails **leahtfl@gmail.com** an activation link. Click it.
+3. Every submission after that is delivered straight through.
+
+Until that link is clicked, submissions are held rather than delivered.
+
+### Keeping the address out of the bundle
+
+The default endpoint contains the address in plain text, which means it ships
+in the compiled JavaScript where scrapers can read it. Once the address is
+activated, FormSubmit gives you a hashed endpoint that behaves identically.
+Put it in `.env`:
+
+```
+VITE_FORM_ENDPOINT=https://formsubmit.co/ajax/your-hash-here
+```
+
+For GitHub Actions, add it as a repository variable or secret and expose it to
+the `npm run build` step as `VITE_FORM_ENDPOINT`.
+
+### Switching provider
+
+Anything that accepts a JSON `POST` and answers 2xx works — Formspree,
+Web3Forms, or your own handler. Set `VITE_FORM_ENDPOINT` and nothing else
+changes. The payload shape and the FormSubmit-specific `_subject`, `_template`
+and `_captcha` fields are in `src/lib/form.ts`.
+
+### What is handled
+
+Client-side validation on name and email, a honeypot field for bots, a
+disabled button while sending, a success panel, and a failure message that
+falls back to a `mailto:` link so an enquiry is never simply lost.
+
 ## Notes
 
 - The page is now client-facing rather than an internal draft, so the
