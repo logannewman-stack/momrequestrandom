@@ -71,10 +71,10 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
       <div className="mx-auto flex h-13 max-w-[62rem] items-center gap-5 px-6 sm:px-8">
         <a
           href="#top"
-          className="shrink-0 text-[14px] font-semibold tracking-[-0.02em] no-underline"
+          className="shrink-0 text-[15px] font-medium tracking-[-0.01em] no-underline"
           style={{ color: 'var(--s-text)' }}
         >
-          InnerBoard OS
+          Inner<span style={{ color: 'var(--s-muted)' }}>Board</span> OS
         </a>
 
         <nav
@@ -120,8 +120,10 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
             fights its own `inline-block`, and Tailwind resolves that by
             stylesheet order rather than class order.
           */}
+          {/* "Begin" matches the site's own header button, and the uppercase
+              full label overflowed the row at exactly 640px. */}
           <span className="hidden shrink-0 whitespace-nowrap sm:inline-block">
-            <CtaButton size="sm">Book a walkthrough</CtaButton>
+            <CtaButton size="sm">Begin</CtaButton>
           </span>
           <ThemeToggle />
         </div>

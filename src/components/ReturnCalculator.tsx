@@ -165,8 +165,8 @@ export function ReturnCalculator({
               aria-pressed={on}
               className="rounded-full px-4 py-1.5 text-[13.5px] transition-colors duration-300"
               style={{
-                background: on ? 'var(--s-accent)' : 'var(--s-surface)',
-                color: on ? '#fff' : 'var(--s-muted)',
+                background: on ? 'var(--s-action)' : 'var(--s-surface)',
+                color: on ? 'var(--s-on-action)' : 'var(--s-muted)',
                 boxShadow: on ? 'none' : 'var(--s-shadow-sm)',
                 fontWeight: on ? 600 : 400,
               }}

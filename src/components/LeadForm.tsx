@@ -215,9 +215,18 @@ export function LeadForm({
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="rounded-full px-7 py-3.5 text-[15.5px] font-semibold transition-transform duration-300 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60"
-          style={{ background: 'var(--s-accent)', color: '#fff', boxShadow: 'var(--s-shadow)' }}
+          className="eyebrow inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-[12.5px] transition-transform duration-300 hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-60"
+          style={{
+            background: 'var(--s-action)',
+            color: 'var(--s-on-action)',
+            boxShadow: 'var(--s-shadow)',
+          }}
         >
+          <span
+            aria-hidden="true"
+            className="inline-block h-[7px] w-[7px] shrink-0 rounded-full"
+            style={{ background: 'var(--s-accent)' }}
+          />
           {status === 'sending' ? 'Sending…' : 'Book a walkthrough'}
         </button>
 

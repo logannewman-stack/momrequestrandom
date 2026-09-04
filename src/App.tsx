@@ -26,7 +26,7 @@ export default function App() {
       <a
         href="#problem"
         className="no-print sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:px-4 focus:py-2"
-        style={{ background: 'var(--s-accent)', color: '#fff' }}
+        style={{ background: 'var(--s-action)', color: 'var(--s-on-action)' }}
       >
         Skip to content
       </a>

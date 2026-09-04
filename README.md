@@ -105,10 +105,30 @@ falls back to a `mailto:` link so an enquiry is never simply lost.
 
 ## Design
 
-Creamy, minimal, all-sans. Surfaces separate by tint and a soft shadow rather
-than by rules, so the page carries almost no borders; sections are divided by
-space alone. Self-hosted Inter is the only typeface. Light and dark are one set
-of semantic variables in `src/index.css` — no component names a raw colour.
+Matched to the innerboardos.com brand: a bone ground, warm near-black ink, and
+a slate blue used as the accent. Primary buttons are a solid ink pill carrying
+a small accent dot, as on the main site; in dark mode that pill inverts to
+cream, since an ink pill would disappear into the ground.
+
+Type follows the brand pairing. **Fraunces** carries the words — headings,
+prose, navigation — set light rather than bold, the way the site sets it.
+**Instrument Sans** carries the figures, tables, form controls and the
+uppercase wide-tracked micro-labels (`.eyebrow`), because a display serif has
+no tabular numerals and this page is full of numbers that must align.
+
+### Changing the palette
+
+`src/index.css` holds two named palettes, `--l-*` for light and `--d-*` for
+dark. Every colour value in the design appears exactly once, in one of those
+two blocks. The `--s-*` variables underneath are what components reference, and
+they only ever point at a palette entry, so the two themes cannot drift apart
+and no component names a raw colour.
+
+To rebrand again, edit the two palettes and nothing else.
+
+Both palettes were checked for WCAG AA contrast across every foreground and
+background pairing actually used — body, muted, faint, accent text, and text on
+buttons and tinted panels — in both themes.
 
 ## Deploying
 

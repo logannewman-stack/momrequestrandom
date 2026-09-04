@@ -24,21 +24,34 @@ export function CtaButton({
   return (
     <a
       href={FORM_ANCHOR}
-      className={`inline-block rounded-full no-underline transition-transform duration-300 hover:-translate-y-0.5 ${
-        size === 'sm'
-          ? 'px-3.5 py-1.5 text-[12.5px] font-medium'
-          : 'px-7 py-3.5 text-[15.5px] font-semibold'
+      className={`inline-flex items-center gap-2 rounded-full no-underline transition-transform duration-300 hover:-translate-y-0.5 ${
+        size === 'sm' ? 'eyebrow px-4 py-1.5 text-[11px]' : 'eyebrow px-7 py-3.5 text-[12.5px]'
       } ${className}`}
       style={
         primary
-          ? { background: 'var(--s-accent)', color: '#fff', boxShadow: 'var(--s-shadow)' }
+          ? {
+              background: 'var(--s-action)',
+              color: 'var(--s-on-action)',
+              boxShadow: 'var(--s-shadow)',
+            }
           : {
-              background: 'var(--s-surface)',
+              background: 'transparent',
               color: 'var(--s-text)',
-              boxShadow: 'var(--s-shadow-sm)',
+              boxShadow: 'inset 0 0 0 1px var(--s-text)',
             }
       }
     >
+      {primary && (
+        <span
+          aria-hidden="true"
+          className="inline-block shrink-0 rounded-full"
+          style={{
+            width: size === 'sm' ? 5 : 7,
+            height: size === 'sm' ? 5 : 7,
+            background: 'var(--s-accent)',
+          }}
+        />
+      )}
       {children}
     </a>
   )
