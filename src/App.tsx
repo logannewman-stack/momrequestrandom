@@ -14,7 +14,7 @@ import { SiteHeader } from './components/SiteHeader'
 import { StartSection } from './components/StartSection'
 import { ValueBox } from './components/ValueBox'
 import { WhatGetsInstalled } from './components/WhatGetsInstalled'
-import { Card, Section } from './components/primitives'
+import { Card, Em, Section } from './components/primitives'
 
 export default function App() {
   const [inputs, setInputs] = useModelInputs()
@@ -44,7 +44,11 @@ export default function App() {
         <Section
           id="problem"
           center
-          title="The problem this is bought to solve"
+          title={
+            <>
+              The problem this is <Em>bought to solve</Em>
+            </>
+          }
           lede="Most companies do not have a talent problem. They have a capacity problem sitting on top of mostly good people."
         >
           <Problems />
@@ -53,7 +57,11 @@ export default function App() {
         <Section
           id="installed"
           center
-          title="What gets installed"
+          title={
+            <>
+              What gets <Em>installed</Em>
+            </>
+          }
           lede="Your business already runs on an operating system. For most companies that is EOS, or something homegrown that works well enough. We are not asking you to replace it. We are asking you to enhance it, by acknowledging that it sits on a layer of human performance that has not been trained, tracked, or certified."
         >
           <WhatGetsInstalled />
@@ -62,7 +70,11 @@ export default function App() {
         <Section
           id="cost"
           center
-          title="What it costs"
+          title={
+            <>
+              What it <Em>costs</Em>
+            </>
+          }
           lede="One seat, one price, everything inside. The rate steps down as headcount rises. A fifteen person practice and a five hundred person company buy the same product, and scale changes the price rather than the offering."
         >
           <div className="grid gap-4 md:grid-cols-3">
@@ -90,7 +102,11 @@ export default function App() {
         <Section
           id="numbers"
           center
-          title="Your numbers, side by side"
+          title={
+            <>
+              Your numbers, <Em>side by side</Em>
+            </>
+          }
           lede="Adjust the three assumptions below to match your business. The cost panel is fixed pricing. The return panel is a model, and you can see exactly how it is built."
         >
           <ReturnCalculator inputs={inputs} setInputs={setInputs} cost={cost} ret={ret} />
@@ -118,7 +134,11 @@ export default function App() {
         <Section
           id="method"
           center
-          title="How the return is calculated"
+          title={
+            <>
+              How the return is <Em>calculated</Em>
+            </>
+          }
           lede="Every figure above is built from your inputs and the assumptions below. Nothing is hidden, and the defaults sit at the cautious end of the published ranges on purpose."
         >
           <Assumptions />
@@ -127,7 +147,11 @@ export default function App() {
         <Section
           id="alternatives"
           center
-          title="What the alternatives cost, and who they reach"
+          title={
+            <>
+              What the alternatives cost, and <Em>who they reach</Em>
+            </>
+          }
           lede={`Year one for a ${ALTERNATIVES_HEADCOUNT} person company. The category prices as a barbell: inexpensive software with no delivery, or expensive outsourced implementation. Very little sits in between, and the difference that matters is not only the price. It is how far down the organization the money actually travels.`}
         >
           <Alternatives />

@@ -8,8 +8,9 @@
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/fraunces-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Fraunces';
@@ -17,8 +18,9 @@
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/fraunces-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F,
-    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Fraunces';
@@ -26,8 +28,9 @@
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/fraunces-italic-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Instrument Sans';
@@ -35,8 +38,9 @@
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/instrument-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
-    U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
   font-family: 'Instrument Sans';
@@ -44,8 +48,9 @@
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/instrument-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F,
-    U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 /* --------------------------------------------------------------- tokens -- */
@@ -53,7 +58,8 @@
   /* Words. Fraunces carries the brand voice, including its italic. */
   --font-serif: 'Fraunces', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
   /* Figures, tables, inputs and micro-labels, where tabular numerals matter. */
-  --font-sans: 'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-sans:
+    'Instrument Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
   /* Motion. One curve for surfaces, one slightly softer for figures. */
   --ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
@@ -89,6 +95,11 @@
 
   --l-accent: #5c7c99;
   --l-accent-soft: #dfe7ee;
+  /* Chart fills. `mute` is the unhighlighted ladder bar, which sits directly
+     on the page; `strong` is the emphasised bar, which is darker in light and
+     brighter in dark — in both cases, further from the ground. */
+  --l-accent-mute: #a4b7c9;
+  --l-accent-strong: #35566f;
   --l-accent-text: #456581;
   /* Text placed on top of --l-accent, e.g. a primary button label. */
   --l-on-accent: #ffffff;
@@ -119,6 +130,8 @@
 
   --d-accent: #8fb0cc;
   --d-accent-soft: #1c2a36;
+  --d-accent-mute: #3d556b;
+  --d-accent-strong: #a6c4dd;
   --d-accent-text: #a6c4dd;
   --d-on-accent: #141310;
   /* Inverted in dark: an ink pill would disappear into the ground. */
@@ -151,6 +164,8 @@
   --s-faint: var(--l-faint);
   --s-accent: var(--l-accent);
   --s-accent-soft: var(--l-accent-soft);
+  --s-accent-mute: var(--l-accent-mute);
+  --s-accent-strong: var(--l-accent-strong);
   --s-accent-text: var(--l-accent-text);
   --s-on-accent: var(--l-on-accent);
   --s-action: var(--l-action);
@@ -180,18 +195,23 @@
     --s-faint: var(--d-faint);
     --s-accent: var(--d-accent);
     --s-accent-soft: var(--d-accent-soft);
+    --s-accent-mute: var(--d-accent-mute);
+    --s-accent-strong: var(--d-accent-strong);
+    --s-accent-mute: var(--d-accent-mute);
+    --s-accent-strong: var(--d-accent-strong);
+    --s-accent-strong: var(--d-accent-strong);
     --s-accent-text: var(--d-accent-text);
     --s-on-accent: var(--d-on-accent);
-  --s-action: var(--d-action);
-  --s-on-action: var(--d-on-action);
     --s-action: var(--d-action);
     --s-on-action: var(--d-on-action);
-  --s-action: var(--d-action);
-  --s-on-action: var(--d-on-action);
     --s-action: var(--d-action);
     --s-on-action: var(--d-on-action);
-  --s-action: var(--d-action);
-  --s-on-action: var(--d-on-action);
+    --s-action: var(--d-action);
+    --s-on-action: var(--d-on-action);
+    --s-action: var(--d-action);
+    --s-on-action: var(--d-on-action);
+    --s-action: var(--d-action);
+    --s-on-action: var(--d-on-action);
     --s-action: var(--d-action);
     --s-on-action: var(--d-on-action);
     --s-hairline: var(--d-hairline);
@@ -215,6 +235,8 @@
   --s-faint: var(--d-faint);
   --s-accent: var(--d-accent);
   --s-accent-soft: var(--d-accent-soft);
+  --s-accent-mute: var(--d-accent-mute);
+  --s-accent-strong: var(--d-accent-strong);
   --s-accent-text: var(--d-accent-text);
   --s-on-accent: var(--d-on-accent);
   --s-hairline: var(--d-hairline);

@@ -87,7 +87,10 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
               href={`#${s.id}`}
               aria-current={active === s.id ? 'true' : undefined}
               className="rounded-full px-3 py-1 text-[13px] whitespace-nowrap no-underline transition-colors duration-300"
-              style={{ color: active === s.id ? 'var(--s-text)' : 'var(--s-faint)' }}
+              style={{
+                color: active === s.id ? 'var(--s-accent-text)' : 'var(--s-faint)',
+                fontWeight: active === s.id ? 500 : 400,
+              }}
             >
               {s.label}
             </a>

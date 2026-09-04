@@ -252,7 +252,10 @@ export function ReturnCalculator({
             <div className="text-[12.5px] leading-[1.4]" style={{ color: 'var(--s-faint)' }}>
               {k}
             </div>
-            <div className="tnum mt-1.5 text-[1.5rem] leading-none font-semibold tracking-[-0.025em]">
+            <div
+              className="tnum mt-1.5 text-[1.5rem] leading-none font-semibold tracking-[-0.025em]"
+              style={{ color: 'var(--s-accent-text)' }}
+            >
               {v}
             </div>
           </div>

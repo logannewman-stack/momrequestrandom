@@ -74,7 +74,7 @@ export function PriceLadder({
               >
                 <path
                   d={barPath(x + GAP / 2, y, COL - GAP, PLOT.baseline - y, 14)}
-                  fill={active ? 'var(--s-accent)' : 'var(--s-surface-3)'}
+                  fill={active ? 'var(--s-accent)' : 'var(--s-accent-mute)'}
                   style={{ transition: 'fill .5s var(--ease-smooth)' }}
                 />
                 <rect
@@ -92,7 +92,7 @@ export function PriceLadder({
                   fontSize={26}
                   fontWeight={600}
                   letterSpacing="-0.03em"
-                  fill={active ? 'var(--s-accent-text)' : 'var(--s-text)'}
+                  fill={active ? 'var(--s-accent-text)' : 'var(--s-muted)'}
                   style={{ transition: 'fill .4s var(--ease-gentle)' }}
                 >
                   ${b.rate}

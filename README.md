@@ -126,9 +126,31 @@ and no component names a raw colour.
 
 To rebrand again, edit the two palettes and nothing else.
 
-Both palettes were checked for WCAG AA contrast across every foreground and
-background pairing actually used — body, muted, faint, accent text, and text on
-buttons and tinted panels — in both themes.
+### Where the accent goes
+
+The blue does the work the brand gives it. Headings carry an italic accent
+phrase (`<Em>`), which is the site's own signature — its hero sets two phrases
+that way. Beyond that: the active nav item, card eyebrows, assumption lead-ins,
+outcome figures in the KPI strip and the recovery column, the rule on each
+problem card, the dot on every primary button, and both charts.
+
+Chart fills use `--s-accent-mute` for unhighlighted marks and
+`--s-accent-strong` for the emphasised one. `strong` is *darker* in light and
+*brighter* in dark — in both cases further from the ground, so emphasis reads
+the same way in either theme.
+
+### Contrast
+
+Both palettes were checked for WCAG AA across every foreground and background
+pairing actually used — body, muted, faint, accent text, and text on buttons
+and tinted panels — in both themes.
+
+Chart marks are held to the 3:1 non-text threshold against whatever they sit
+on: bars against their track in the alternatives chart, and the active ladder
+bar against the page. Unhighlighted ladder bars sit below that ratio by design;
+they are large solid shapes whose value is printed directly above them in
+conforming text, so the bar is a supporting mark rather than the sole carrier
+of the data.
 
 ## Deploying
 

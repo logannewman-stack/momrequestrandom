@@ -30,6 +30,11 @@ export function Problems() {
             boxShadow: 'var(--s-shadow-sm)',
           }}
         >
+          <span
+            aria-hidden="true"
+            className="mb-4 block h-[3px] w-9 rounded-full"
+            style={{ background: 'var(--s-accent)' }}
+          />
           <h3 className="text-[17px] tracking-[-0.015em]">{p.title}</h3>
           <p className="mt-3 text-[14.5px] leading-[1.6]" style={{ color: 'var(--s-muted)' }}>
             {p.body}

@@ -1,6 +1,7 @@
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber'
 import { MAX_HEADCOUNT, usd, type ReturnModel, type Scenario } from '../lib/pricing'
 import { CtaButton } from './Cta'
+import { Em } from './primitives'
 
 export function Hero({
   headcount,
@@ -20,7 +21,7 @@ export function Hero({
     <header id="top" className="pt-16 pb-4 sm:pt-24 sm:pb-8">
       <div className="mx-auto max-w-[52rem] text-center">
         <h1 className="mx-auto max-w-[19ch] text-[clamp(2.2rem,6vw,3.9rem)]">
-          Why would a company install an operating system for its people?
+          Why would a company install an operating system <Em>for its people</Em>?
         </h1>
 
         <p
@@ -29,7 +30,7 @@ export function Hero({
         >
           You measure most of what moves in your business. Production, collections, hours,
           retention, margin.{' '}
-          <strong className="font-semibold" style={{ color: 'var(--s-text)' }}>
+          <strong className="font-semibold" style={{ color: 'var(--s-accent-text)' }}>
             What rarely gets measured is the person responsible for the move.
           </strong>
         </p>

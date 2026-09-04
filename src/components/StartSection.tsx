@@ -1,3 +1,4 @@
+import { Em } from './primitives'
 import { LeadForm } from './LeadForm'
 import type { ModelInputs, ReturnModel, Scenario } from '../lib/pricing'
 
@@ -14,7 +15,7 @@ export function StartSection({
     <section id="start" className="scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto max-w-[46rem] text-center">
         <h2 className="mx-auto max-w-[22ch] text-[clamp(1.9rem,4.4vw,2.9rem)]">
-          See where your company actually stands
+          See where your company <Em>actually stands</Em>
         </h2>
         <p
           className="mx-auto mt-6 max-w-[40rem] text-[clamp(1.02rem,1.9vw,1.18rem)] leading-[1.55]"

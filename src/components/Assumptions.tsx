@@ -38,7 +38,12 @@ export function Assumptions() {
             boxShadow: 'var(--s-shadow-sm)',
           }}
         >
-          <dt className="text-[15px] font-semibold tracking-[-0.01em]">{item.term}</dt>
+          <dt
+            className="text-[15px] font-semibold tracking-[-0.01em]"
+            style={{ color: 'var(--s-accent-text)' }}
+          >
+            {item.term}
+          </dt>
           <dd className="mt-2 ml-0 text-[14.5px] leading-[1.6]" style={{ color: 'var(--s-muted)' }}>
             {item.body}
           </dd>

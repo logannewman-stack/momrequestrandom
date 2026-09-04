@@ -43,13 +43,13 @@ export function Alternatives() {
 
               <div
                 className="h-3 overflow-hidden rounded-full"
-                style={{ background: 'var(--s-track)' }}
+                style={{ background: 'var(--s-accent-soft)' }}
               >
                 <div
                   className="h-full rounded-full"
                   style={{
                     width: `${(r.cost / MAX) * 100}%`,
-                    background: r.ours ? 'var(--s-accent)' : 'var(--s-faint)',
+                    background: r.ours ? 'var(--s-accent-strong)' : 'var(--s-accent)',
                     transition: 'width .6s var(--ease-smooth)',
                   }}
                 />

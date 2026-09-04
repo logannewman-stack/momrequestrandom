@@ -1,5 +1,6 @@
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber'
 import { usd, type ModelInputs, type ReturnModel } from '../lib/pricing'
+import { Em } from './primitives'
 
 export function ValueBox({ inputs, ret }: { inputs: ModelInputs; ret: ReturnModel }) {
   const value = useAnimatedNumber(ret.addedValue)
@@ -15,7 +16,7 @@ export function ValueBox({ inputs, ret }: { inputs: ModelInputs; ret: ReturnMode
     >
       <div>
         <h2 className="max-w-[20ch] text-[clamp(1.6rem,3.4vw,2.3rem)]">
-          The number that outlives the year
+          The number that <Em>outlives the year</Em>
         </h2>
         <p
           className="mt-5 max-w-[56ch] text-[15.5px] leading-[1.65]"

@@ -2,6 +2,14 @@ import type { ReactNode } from 'react'
 import { useReveal } from '../hooks/useReveal'
 
 /**
+ * Emphasis inside a heading: italic, in the accent. This is the brand's
+ * signature move — the site's own hero sets two phrases this way.
+ */
+export function Em({ children }: { children: ReactNode }) {
+  return <em style={{ color: 'var(--s-accent-text)' }}>{children}</em>
+}
+
+/**
  * Sections are separated by space alone — no numbers, no rules. The rhythm is
  * deliberately large; it is most of what makes the page feel calm.
  */
@@ -13,7 +21,7 @@ export function Section({
   center = false,
 }: {
   id: string
-  title: string
+  title: ReactNode
   lede?: ReactNode
   children: ReactNode
   center?: boolean
