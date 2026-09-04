@@ -123,14 +123,44 @@ export function SiteHeader({ cost, ret }: { cost: Scenario; ret: ReturnModel }) 
             fights its own `inline-block`, and Tailwind resolves that by
             stylesheet order rather than class order.
           */}
-          {/* "Begin" matches the site's own header button, and the uppercase
-              full label overflowed the row at exactly 640px. */}
-          <span className="hidden shrink-0 whitespace-nowrap sm:inline-block">
+          {/* "Begin" matches the site's own header button. The short label
+              fits every width, so the primary action stays reachable on
+              phones too. */}
+          <span className="shrink-0 whitespace-nowrap">
             <CtaButton size="sm">Begin</CtaButton>
           </span>
           <ThemeToggle />
         </div>
       </div>
+
+      <nav
+        aria-label="Sections"
+        className="-mb-px flex gap-1.5 overflow-x-auto px-6 pb-2.5 lg:hidden"
+        style={{
+          scrollbarWidth: 'none',
+          // Fades the row's edges so it reads as scrollable.
+          maskImage:
+            'linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 14px), transparent)',
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent, #000 14px, #000 calc(100% - 14px), transparent)',
+        }}
+      >
+        {SECTIONS.map((s) => (
+          <a
+            key={s.id}
+            href={`#${s.id}`}
+            aria-current={active === s.id ? 'true' : undefined}
+            className="shrink-0 rounded-full px-3 py-1.5 text-[12.5px] whitespace-nowrap no-underline transition-colors duration-300"
+            style={{
+              background: active === s.id ? 'var(--s-accent-soft)' : 'transparent',
+              color: active === s.id ? 'var(--s-accent-text)' : 'var(--s-muted)',
+              boxShadow: active === s.id ? 'none' : 'inset 0 0 0 1px var(--s-hairline)',
+            }}
+          >
+            {s.label}
+          </a>
+        ))}
+      </nav>
     </header>
   )
 }

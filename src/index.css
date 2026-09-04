@@ -89,9 +89,14 @@
   --l-surface-2: #e4dfd2;
   --l-surface-3: #d8d2c3;
 
+  /*
+   * Three text tones. `muted` and `faint` are both used for real copy at small
+   * sizes, so both clear 4.5:1 against every surface they land on — including
+   * the recessed one, which is the tightest. Lightening either breaks AA.
+   */
   --l-text: #1b1a16;
-  --l-muted: #63604f;
-  --l-faint: #847f71;
+  --l-muted: #544f41;
+  --l-faint: #676358;
 
   --l-accent: #5c7c99;
   --l-accent-soft: #dfe7ee;
@@ -125,8 +130,8 @@
   --d-surface-3: #35322b;
 
   --d-text: #f1eee5;
-  --d-muted: #a29d90;
-  --d-faint: #7a756a;
+  --d-muted: #bdb8ac;
+  --d-faint: #948f82;
 
   --d-accent: #8fb0cc;
   --d-accent-soft: #1c2a36;
@@ -311,6 +316,13 @@
     width: 100%;
     background: transparent;
     cursor: pointer;
+    /*
+     * The visible track is 4px, which is far too small a target. Padding grows
+     * the element's hit area past 24px without thickening the track.
+     */
+    padding: 11px 0;
+    height: 26px;
+    box-sizing: content-box;
   }
   input[type='range']::-webkit-slider-runnable-track {
     height: 4px;
@@ -382,6 +394,32 @@
   button,
   table {
     font-family: var(--font-sans);
+  }
+
+  /*
+   * Field wrapper. The inputs carry `outline-none` for looks, and a utility
+   * beats the base `:focus-visible` rule, so without this a keyboard user gets
+   * no focus indicator at all. Ringing the wrapper reads better than an
+   * outline on the bare input, and `:focus-within` covers both.
+   */
+  .field {
+    background: var(--s-surface);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--s-shadow-sm);
+    transition: box-shadow 0.2s var(--ease-gentle);
+  }
+  .field:focus-within {
+    box-shadow:
+      inset 0 0 0 2px var(--s-accent),
+      var(--s-shadow-sm);
+  }
+  .field[data-invalid='true'] {
+    box-shadow: inset 0 0 0 1.5px var(--s-danger);
+  }
+  .field[data-invalid='true']:focus-within {
+    box-shadow:
+      inset 0 0 0 2px var(--s-danger),
+      var(--s-shadow-sm);
   }
 
   /* The uppercase, wide-tracked label is a brand signature. */

@@ -68,14 +68,7 @@ function Input({
           </span>
         )}
       </label>
-      <div
-        className="mt-2 px-4 py-3"
-        style={{
-          background: 'var(--s-surface)',
-          borderRadius: 'var(--radius-sm)',
-          boxShadow: error ? 'inset 0 0 0 1.5px var(--s-danger)' : 'var(--s-shadow-sm)',
-        }}
-      >
+      <div className="field mt-2 px-4 py-3" data-invalid={error ? 'true' : undefined}>
         {rows ? (
           <textarea {...shared} rows={rows} className={`${shared.className} resize-y`} />
         ) : (
@@ -120,8 +113,11 @@ export function LeadForm({
     event.preventDefault()
     const found = validate(values)
     setErrors(found)
-    if (Object.keys(found).length > 0) {
-      document.getElementById(`${uid}-name`)?.focus()
+    const firstInvalid = (['name', 'email', 'company', 'phone', 'message'] as const).find(
+      (k) => found[k],
+    )
+    if (firstInvalid) {
+      document.getElementById(`${uid}-${firstInvalid}`)?.focus()
       return
     }
 

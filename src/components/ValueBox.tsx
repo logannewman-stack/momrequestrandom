@@ -35,7 +35,7 @@ export function ValueBox({ inputs, ret }: { inputs: ModelInputs; ret: ReturnMode
         </p>
       </div>
 
-      <div className="lg:text-right" aria-live="polite" aria-atomic="true">
+      <div className="lg:text-right">
         <div
           className="tnum text-[clamp(2.4rem,6vw,3.3rem)] leading-none font-semibold tracking-[-0.035em]"
           style={{ color: 'var(--s-accent-text)' }}

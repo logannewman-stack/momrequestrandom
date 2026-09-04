@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useModelInputs } from './hooks/useModelInputs'
-import { ALTERNATIVES_HEADCOUNT, returnModel, scenario as buildScenario } from './lib/pricing'
+import { useSettledAnnouncement } from './hooks/useSettledAnnouncement'
+import { ALTERNATIVES_HEADCOUNT, returnModel, scenario as buildScenario, usd } from './lib/pricing'
 import { Alternatives } from './components/Alternatives'
 import { CtaBand } from './components/Cta'
 import { Assumptions } from './components/Assumptions'
@@ -21,6 +22,12 @@ export default function App() {
   const cost = useMemo(() => buildScenario(inputs.headcount), [inputs.headcount])
   const ret = useMemo(() => returnModel(inputs, cost), [inputs, cost])
 
+  const announcement = useSettledAnnouncement(
+    `${inputs.headcount} people. Year one ${usd(cost.yearOne)}. ` +
+      `Modeled annual recovery ${usd(ret.recovery)}, ${ret.scenario.name} case. ` +
+      `Net gain ${usd(ret.net)}.`,
+  )
+
   return (
     <>
       <a
@@ -30,6 +37,11 @@ export default function App() {
       >
         Skip to content
       </a>
+
+      {/* Announced once the figures settle, rather than on every eased frame. */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {announcement}
+      </div>
 
       <SiteHeader cost={cost} ret={ret} />
 

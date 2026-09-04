@@ -8,6 +8,7 @@ import {
   type ReturnModel,
   type Scenario,
 } from '../lib/pricing'
+import { NumericInput } from './NumericInput'
 
 function Line({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
   return (
@@ -70,27 +71,20 @@ function Field({
       <label htmlFor={id} className="block text-[13px]" style={{ color: 'var(--s-muted)' }}>
         {label}
       </label>
-      <div
-        className="mt-2 flex items-baseline gap-1 px-4 py-3"
-        style={{
-          background: 'var(--s-surface)',
-          borderRadius: 'var(--radius-sm)',
-          boxShadow: 'var(--s-shadow-sm)',
-        }}
-      >
+      <div className="field mt-2 flex items-baseline gap-1 px-4 py-3">
         {prefix && (
           <span className="text-[14px]" style={{ color: 'var(--s-faint)' }}>
             {prefix}
           </span>
         )}
-        <input
+        <NumericInput
           id={id}
-          type="number"
           min={min}
           max={max}
           step={step}
           value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onCommit={onChange}
+          inputMode={step && step < 1 ? 'decimal' : 'numeric'}
           className="tnum w-full bg-transparent text-[1.15rem] font-semibold outline-none"
           style={{ color: 'var(--s-text)' }}
         />
@@ -177,7 +171,7 @@ export function ReturnCalculator({
         })}
       </div>
 
-      <div className="mt-8 grid gap-4 lg:grid-cols-2" aria-live="polite" aria-atomic="true">
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
         <div
           className="p-7 sm:p-8"
           style={{

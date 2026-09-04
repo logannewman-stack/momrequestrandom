@@ -139,11 +139,35 @@ Chart fills use `--s-accent-mute` for unhighlighted marks and
 *brighter* in dark — in both cases further from the ground, so emphasis reads
 the same way in either theme.
 
+### Accessibility
+
+Audited with axe-core across light, dark and mobile: zero violations. Beyond
+what axe checks:
+
+- **Focus is always visible.** The inputs carry `outline-none` for looks, and a
+  Tailwind utility beats the base `:focus-visible` rule, so nine controls had no
+  indicator at all. Field wrappers now carry a `:focus-within` ring (`.field`).
+- **One debounced live region.** The figures ease toward their targets, so
+  marking their containers `aria-live` emitted 168 DOM mutations from a single
+  slider nudge — a screen reader would read the count-up frame by frame. A
+  single `sr-only` region now announces the settled scenario once.
+- **The chart is decorative, the bands are buttons.** `role="button"` groups
+  inside a `role="img"` svg were invisible to assistive tech, because an image's
+  contents are presentational. Real buttons are layered over the chart.
+- **Touch targets clear 24px**, including the slider, whose 4px track needed
+  padding to grow its hit area without thickening the visual track.
+- Keyboard reaches all 33 stops, the skip link is first, and the ladder bands
+  are operable with correct `aria-pressed`.
+
 ### Contrast
 
 Both palettes were checked for WCAG AA across every foreground and background
 pairing actually used — body, muted, faint, accent text, and text on buttons
 and tinted panels — in both themes.
+
+Both `muted` and `faint` are used for real copy at small sizes, so both clear
+4.5:1 against every surface they land on — including the recessed one, which is
+the tightest. Lightening either breaks AA.
 
 Chart marks are held to the 3:1 non-text threshold against whatever they sit
 on: bars against their track in the alternatives chart, and the active ladder

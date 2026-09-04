@@ -1,6 +1,7 @@
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber'
 import { MAX_HEADCOUNT, usd, type ReturnModel, type Scenario } from '../lib/pricing'
 import { CtaButton } from './Cta'
+import { NumericInput } from './NumericInput'
 import { Em } from './primitives'
 
 export function Hero({
@@ -61,15 +62,13 @@ export function Hero({
           >
             How many people do you employ?
           </label>
-          <input
+          <NumericInput
             id="hero-headcount"
-            type="number"
-            inputMode="numeric"
             min={1}
             max={MAX_HEADCOUNT}
             value={headcount}
-            onChange={(e) => onHeadcount(Number(e.target.value))}
-            className="tnum mt-2 w-full bg-transparent text-[3rem] leading-none font-semibold tracking-[-0.04em] outline-none"
+            onCommit={onHeadcount}
+            className="tnum mt-2 w-full rounded bg-transparent text-[3rem] leading-none font-semibold tracking-[-0.04em]"
             style={{ color: 'var(--s-text)' }}
           />
           <input
@@ -94,8 +93,6 @@ export function Hero({
         <div
           className="grid grid-cols-1 gap-px sm:grid-cols-2"
           style={{ background: 'var(--s-hairline)' }}
-          aria-live="polite"
-          aria-atomic="true"
         >
           <div className="p-7 sm:p-8" style={{ background: 'var(--s-surface)' }}>
             <div className="text-[13px]" style={{ color: 'var(--s-muted)' }}>

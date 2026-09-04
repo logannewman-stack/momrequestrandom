@@ -43,74 +43,80 @@ export function PriceLadder({
   return (
     <figure className="m-0">
       <div className="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
-        <svg
-          viewBox={`0 0 ${VB.w} ${VB.h}`}
-          className="block h-auto w-full min-w-[520px]"
-          role="img"
-          aria-label={
-            'Seat price steps down as headcount rises: ' +
-            BANDS.map((b) => `$${b.rate} for ${b.label}`).join('; ') +
-            `. Currently ${headcount} people at $${BANDS[activeIndex].rate}.`
-          }
-        >
-          {BANDS.map((b, i) => {
-            const x = PLOT.left + i * COL
-            const y = yFor(b.rate)
-            const active = i === activeIndex
-            return (
-              <g
+        {/*
+          The chart is decorative and the bands are real buttons layered over
+          it. Putting `role="button"` groups inside a `role="img"` svg made them
+          invisible to assistive technology, because an image's contents are
+          presentational.
+        */}
+        <div className="relative min-w-[520px]">
+          <svg viewBox={`0 0 ${VB.w} ${VB.h}`} className="block h-auto w-full" aria-hidden="true">
+            {BANDS.map((b, i) => {
+              const x = PLOT.left + i * COL
+              const y = yFor(b.rate)
+              const active = i === activeIndex
+              return (
+                <g key={b.label}>
+                  <path
+                    d={barPath(x + GAP / 2, y, COL - GAP, PLOT.baseline - y, 14)}
+                    fill={active ? 'var(--s-accent)' : 'var(--s-accent-mute)'}
+                    style={{ transition: 'fill .5s var(--ease-smooth)' }}
+                  />
+                  <text
+                    x={x + COL / 2}
+                    y={y - 18}
+                    textAnchor="middle"
+                    className="tnum"
+                    fontSize={26}
+                    fontWeight={600}
+                    letterSpacing="-0.03em"
+                    fill={active ? 'var(--s-accent-text)' : 'var(--s-text)'}
+                    style={{ transition: 'fill .4s var(--ease-gentle)' }}
+                  >
+                    ${b.rate}
+                  </text>
+                  <text
+                    x={x + COL / 2}
+                    y={PLOT.baseline + 28}
+                    textAnchor="middle"
+                    fontSize={14}
+                    fill={active ? 'var(--s-text)' : 'var(--s-muted)'}
+                    style={{ transition: 'fill .4s var(--ease-gentle)' }}
+                  >
+                    {b.label}
+                  </text>
+                </g>
+              )
+            })}
+          </svg>
+
+          <div
+            role="group"
+            aria-label="Seat price by headcount band"
+            className="absolute inset-0 grid"
+            style={{
+              gridTemplateColumns: `repeat(${BANDS.length}, 1fr)`,
+              // Matches the plot inset inside the viewBox.
+              paddingLeft: `${(PLOT.left / VB.w) * 100}%`,
+              paddingRight: `${((VB.w - PLOT.right) / VB.w) * 100}%`,
+            }}
+          >
+            {BANDS.map((b, i) => (
+              <button
                 key={b.label}
+                type="button"
                 onClick={() => onSelect(midpointOf(i))}
-                className="cursor-pointer"
-                role="button"
-                tabIndex={0}
-                aria-label={`Price the ${b.label} band at $${b.rate} per seat`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    onSelect(midpointOf(i))
-                  }
-                }}
+                aria-pressed={i === activeIndex}
+                className="cursor-pointer rounded-[14px] bg-transparent"
+                title={`Price the ${b.label} band`}
               >
-                <path
-                  d={barPath(x + GAP / 2, y, COL - GAP, PLOT.baseline - y, 14)}
-                  fill={active ? 'var(--s-accent)' : 'var(--s-accent-mute)'}
-                  style={{ transition: 'fill .5s var(--ease-smooth)' }}
-                />
-                <rect
-                  x={x}
-                  y={PLOT.top - 46}
-                  width={COL}
-                  height={PLOT.baseline - PLOT.top + 46}
-                  fill="transparent"
-                />
-                <text
-                  x={x + COL / 2}
-                  y={y - 18}
-                  textAnchor="middle"
-                  className="tnum"
-                  fontSize={26}
-                  fontWeight={600}
-                  letterSpacing="-0.03em"
-                  fill={active ? 'var(--s-accent-text)' : 'var(--s-muted)'}
-                  style={{ transition: 'fill .4s var(--ease-gentle)' }}
-                >
-                  ${b.rate}
-                </text>
-                <text
-                  x={x + COL / 2}
-                  y={PLOT.baseline + 28}
-                  textAnchor="middle"
-                  fontSize={14}
-                  fill={active ? 'var(--s-text)' : 'var(--s-faint)'}
-                  style={{ transition: 'fill .4s var(--ease-gentle)' }}
-                >
-                  {b.label}
-                </text>
-              </g>
-            )
-          })}
-        </svg>
+                <span className="sr-only">
+                  {`${b.label} people, $${b.rate} per seat per month`}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
       <figcaption className="mt-6 text-center text-[13px]" style={{ color: 'var(--s-faint)' }}>
         Select a band to price that size.
